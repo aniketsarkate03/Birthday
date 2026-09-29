@@ -1,0 +1,1412 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+  <title>A Little Surprise For You ❤️</title>
+
+  <!-- Tailwind CSS CDN -->
+  <script src="https://cdn.tailwindcss.com"></script>
+
+  <!-- Google Fonts: Cormorant Garamond, Great Vibes, Plus Jakarta Sans -->
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,400;0,600;0,700;1,400;1,600&family=Great+Vibes&family=Plus+Jakarta+Sans:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+
+  <!-- Canvas Confetti CDN -->
+  <script src="https://cdn.jsdelivr.net/npm/canvas-confetti@1.6.0/dist/confetti.browser.min.js"></script>
+
+  <!-- Lucide Icons CDN -->
+  <script src="https://unpkg.com/lucide@latest"></script>
+
+  <style>
+    :root {
+      --rose-glow: rgba(244, 63, 94, 0.45);
+      --card-bg: rgba(18, 9, 24, 0.82);
+      --card-border: rgba(255, 182, 193, 0.22);
+    }
+
+    * {
+      -webkit-tap-highlight-color: transparent;
+      box-sizing: border-box;
+    }
+
+    body {
+      font-family: 'Plus Jakarta Sans', sans-serif;
+      background-color: #0c0511;
+      color: #fff;
+      overflow-x: hidden;
+      min-height: 100vh;
+      margin: 0;
+    }
+
+    .font-script {
+      font-family: 'Great Vibes', cursive;
+    }
+
+    .font-serif-romantic {
+      font-family: 'Cormorant Garamond', serif;
+    }
+
+    /* Glassmorphism Card styling */
+    .glass-card {
+      background: var(--card-bg);
+      backdrop-filter: blur(22px);
+      -webkit-backdrop-filter: blur(22px);
+      border: 1px solid var(--card-border);
+      box-shadow: 0 20px 50px rgba(0, 0, 0, 0.6), 0 0 35px rgba(244, 63, 94, 0.18);
+    }
+
+    .glass-pill {
+      background: rgba(255, 255, 255, 0.09);
+      backdrop-filter: blur(14px);
+      -webkit-backdrop-filter: blur(14px);
+      border: 1px solid rgba(255, 255, 255, 0.16);
+    }
+
+    /* Floating Ambient Hearts */
+    .floating-heart-particle {
+      position: fixed;
+      pointer-events: none;
+      animation: floatUpAnim 8s linear infinite;
+      opacity: 0;
+      z-index: 1;
+      will-change: transform, opacity;
+    }
+
+    @keyframes floatUpAnim {
+      0% {
+        transform: translateY(105vh) scale(0.6) rotate(0deg);
+        opacity: 0;
+      }
+      15% { opacity: 0.85; }
+      85% { opacity: 0.85; }
+      100% {
+        transform: translateY(-12vh) scale(1.15) rotate(45deg);
+        opacity: 0;
+      }
+    }
+
+    /* Heartbeat animation */
+    @keyframes heartbeatGlow {
+      0%, 100% {
+        transform: scale(1);
+        box-shadow: 0 0 20px rgba(244, 63, 94, 0.4), 0 0 45px rgba(244, 63, 94, 0.2);
+      }
+      50% {
+        transform: scale(1.06);
+        box-shadow: 0 0 35px rgba(244, 63, 94, 0.75), 0 0 65px rgba(244, 63, 94, 0.45);
+      }
+    }
+
+    .heartbeat-glow {
+      animation: heartbeatGlow 2.2s ease-in-out infinite;
+    }
+
+    /* Polaroid Card styling */
+    .polaroid-card {
+      background: #ffffff;
+      color: #1a1a1a;
+      box-shadow: 0 16px 36px rgba(0, 0, 0, 0.55), 0 2px 8px rgba(0, 0, 0, 0.3);
+      transition: all 0.35s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+    }
+    .polaroid-card:hover {
+      transform: translateY(-5px) scale(1.02);
+      box-shadow: 0 20px 45px rgba(244, 63, 94, 0.35);
+    }
+
+    /* Password Shake Animation */
+    @keyframes shakeCard {
+      0%, 100% { transform: translateX(0); }
+      20%, 60% { transform: translateX(-10px); }
+      40%, 80% { transform: translateX(10px); }
+    }
+    .animate-shake {
+      animation: shakeCard 0.45s cubic-bezier(0.36, 0.07, 0.19, 0.97) both;
+    }
+
+    /* Page Navigation Smooth Visibility */
+    .page-section {
+      transition: opacity 0.45s ease, transform 0.45s ease;
+    }
+    .page-hidden {
+      opacity: 0;
+      pointer-events: none;
+      transform: translateY(18px);
+      position: absolute;
+      top: 0;
+      left: 0;
+      width: 100%;
+      visibility: hidden;
+    }
+    .page-active {
+      opacity: 1;
+      pointer-events: auto;
+      transform: translateY(0);
+      position: relative;
+      visibility: visible;
+    }
+
+    /* Candle Flame animation */
+    @keyframes flicker {
+      0%, 100% { transform: scale(1) rotate(0deg); opacity: 0.95; }
+      25% { transform: scale(1.1, 0.9) rotate(-2deg); opacity: 1; }
+      50% { transform: scale(0.95, 1.15) rotate(2deg); opacity: 0.85; }
+      75% { transform: scale(1.05, 1.05) rotate(-1deg); opacity: 0.95; }
+    }
+    .flame-anim {
+      animation: flicker 1.8s ease-in-out infinite alternate;
+      transform-origin: bottom center;
+    }
+
+    /* Wax Seal Badge */
+    .wax-seal {
+      background: radial-gradient(circle at 35% 35%, #e11d48, #881337);
+      box-shadow: inset 0 2px 4px rgba(255,255,255,0.4), inset 0 -2px 6px rgba(0,0,0,0.6), 0 4px 10px rgba(0,0,0,0.4);
+    }
+
+    /* Hide horizontal scrollbar */
+    .scrollbar-none::-webkit-scrollbar { display: none; }
+    .scrollbar-none { -ms-overflow-style: none; scrollbar-width: none; }
+  </style>
+</head>
+
+<body class="selection:bg-rose-500 selection:text-white flex flex-col justify-between min-h-screen relative overflow-x-hidden">
+
+  <!-- Real romantic song file -->
+  <audio id="romanticSong" src="./song.mpeg" preload="auto" loop></audio>
+  <!-- FULLSCREEN COUPLE PHOTO BACKGROUND -->
+  <div class="fixed inset-0 z-0 pointer-events-none overflow-hidden">
+    <div id="coupleBgPhoto" 
+         class="absolute inset-0 bg-cover bg-center transition-all duration-1000 scale-105 filter brightness-[0.38] contrast-105"
+         style="background-image: url('./img/back.jpeg') width: 100vw; height: 100vh; background-size: cover;">
+    </div>
+    
+    <!-- Romantic dark radial & vertical gradient overlay -->
+    <div class="absolute inset-0 bg-gradient-to-b from-[#0e0514]/85 via-[#160720]/80 to-[#0a030e]/95 backdrop-blur-[6px]"></div>
+    
+    <!-- Ambient glowing light spots -->
+    <div class="absolute -top-24 left-1/2 -translate-x-1/2 w-96 h-96 bg-rose-600/20 rounded-full blur-[120px]"></div>
+    <div class="absolute bottom-10 right-5 w-80 h-80 bg-pink-500/18 rounded-full blur-[110px]"></div>
+    
+    <!-- Floating Hearts Container -->
+    <div id="floatingHeartsContainer" class="absolute inset-0 pointer-events-none overflow-hidden"></div>
+  </div>
+
+  <!-- TOP NAVIGATION & JOURNEY STEPPER -->
+  <header id="topNavbar" class="fixed top-0 left-0 right-0 z-40 px-3 py-3 transition-opacity duration-500 opacity-0 pointer-events-none">
+    <div class="max-w-md mx-auto flex items-center justify-between glass-pill px-4 py-2 rounded-full shadow-2xl">
+      
+      <!-- Progress Indicator -->
+      <div class="flex items-center space-x-2">
+        <span class="text-xs font-semibold text-pink-200 tracking-wider flex items-center">
+          <i data-lucide="sparkles" class="w-3.5 h-3.5 mr-1 text-rose-400"></i>
+          <span id="stepIndicatorText">Step 1 of 6</span>
+        </span>
+        <div class="flex space-x-1 ml-1" id="stepDots"></div>
+      </div>
+
+      <!-- Actions: Audio Controller & Personalization Modal -->
+      <div class="flex items-center space-x-2">
+        <button id="musicToggleBtn" 
+                onclick="toggleRomanticMusic()" 
+                title="Play Romantic Music"
+                class="w-8 h-8 rounded-full bg-rose-500/30 hover:bg-rose-500/50 border border-rose-400/40 flex items-center justify-center text-pink-200 transition-all active:scale-90">
+          <i id="musicIcon" data-lucide="volume-x" class="w-4 h-4"></i>
+        </button>
+
+        <button onclick="openPersonalizeModal()" 
+                title="Personalize Names, Passcode & Photos"
+                class="w-8 h-8 rounded-full bg-white/10 hover:bg-white/20 border border-white/20 flex items-center justify-center text-pink-200 transition-all active:scale-90">
+          <i data-lucide="sliders" class="w-4 h-4"></i>
+        </button>
+      </div>
+    </div>
+  </header>
+
+  <main class="relative z-10 w-full max-w-md mx-auto min-h-screen px-4 pt-16 pb-8 flex flex-col justify-center">
+
+    <!-- ========================================================================= -->
+    <!-- PAGE 1: PASSWORD SCREEN 🔐                                                -->
+    <!-- ========================================================================= -->
+    <section id="page1" class="page-section page-active py-4 text-center">
+      <div class="glass-card rounded-3xl p-6 sm:p-8 max-w-sm mx-auto relative overflow-hidden">
+        
+        <!-- Glowing Heart Icon -->
+        <div class="w-20 h-20 mx-auto mb-5 rounded-full bg-gradient-to-tr from-rose-500/40 to-pink-500/20 border border-rose-400/40 flex items-center justify-center heartbeat-glow">
+          <i data-lucide="lock" class="w-9 h-9 text-rose-300"></i>
+        </div>
+
+        <h1 class="font-serif-romantic text-3xl font-bold text-white tracking-wide mb-1">
+          A Little Surprise For You <span class="text-rose-400">❤️</span>
+        </h1>
+        <p class="text-xs sm:text-sm text-pink-200/80 mb-6 font-light">
+          Only my special person can enter...
+        </p>
+
+        <!-- Password input container -->
+        <div class="space-y-3">
+          <div class="relative">
+            <input 
+              type="password" 
+              id="passwordInput" 
+              placeholder="Enter our secret password..." 
+              class="w-full px-4 py-3.5 rounded-2xl bg-black/45 border border-rose-400/40 text-white placeholder-pink-300/40 text-sm focus:outline-none focus:ring-2 focus:ring-rose-400/80 focus:border-transparent transition-all pr-11"
+              autocomplete="off"
+            />
+            <button 
+              type="button" 
+              onclick="togglePasswordPeek()" 
+              class="absolute right-3.5 top-1/2 -translate-y-1/2 text-pink-300/60 hover:text-pink-200">
+              <i id="peekIcon" data-lucide="eye" class="w-4 h-4"></i>
+            </button>
+          </div>
+
+          <!-- Error Alert (Hidden by default) -->
+          <p id="passwordError" class="text-xs text-rose-300 font-medium hidden flex items-center justify-center space-x-1">
+            <span>Oops! Try again, Birthday Girl ❤️</span>
+          </p>
+
+          <button 
+            onclick="validatePassword()" 
+            class="w-full py-3.5 px-6 rounded-2xl bg-gradient-to-r from-rose-500 via-pink-500 to-rose-600 hover:from-rose-600 hover:to-pink-600 text-white font-semibold text-sm shadow-lg shadow-rose-500/30 active:scale-95 transition-all flex items-center justify-center space-x-2">
+            <span>Unlock Surprise</span>
+            <i data-lucide="sparkles" class="w-4 h-4"></i>
+          </button>
+        </div>
+      </div>
+    </section>
+
+    <!-- ========================================================================= -->
+    <!-- PAGE 2: WELCOME SCREEN 🎂                                                 -->
+    <!-- ========================================================================= -->
+    <section id="page2" class="page-section page-hidden py-4 text-center">
+      <div class="glass-card rounded-3xl p-6 sm:p-8 max-w-sm mx-auto">
+        
+        <!-- Birthday Candle & Cake Animation -->
+        <div class="relative w-24 h-24 mx-auto mb-4 flex items-center justify-center">
+          <div class="absolute -top-1 w-4 h-7 rounded-full bg-gradient-to-t from-yellow-500 via-amber-300 to-white blur-[1px] flame-anim"></div>
+          <div class="text-6xl drop-shadow-[0_0_15px_rgba(244,63,94,0.6)]">🎂</div>
+        </div>
+
+        <span class="inline-block text-[11px] uppercase tracking-widest text-pink-300 bg-rose-500/20 px-3 py-1 rounded-full border border-rose-400/30 mb-2">
+          It's Your Special Day ✨
+        </span>
+
+        <h2 class="font-script text-4xl sm:text-5xl text-rose-300 font-bold mb-3 leading-tight">
+          Happy Birthday, Kittuuu ❤️
+        </h2>
+
+        <p class="font-serif-romantic text-base sm:text-lg text-pink-100/90 leading-relaxed italic px-2 mb-6">
+          "Today is not just your birthday... it's the day my favorite person came into this world."
+        </p>
+
+        <!-- Floating ambient mini hearts -->
+        <div class="flex justify-center space-x-3 text-rose-400 mb-6 text-lg">
+          <span class="animate-bounce" style="animation-delay: 0.1s">💖</span>
+          <span class="animate-bounce" style="animation-delay: 0.3s">✨</span>
+          <span class="animate-bounce" style="animation-delay: 0.5s">🌹</span>
+          <span class="animate-bounce" style="animation-delay: 0.7s">🎂</span>
+          <span class="animate-bounce" style="animation-delay: 0.9s">💕</span>
+        </div>
+
+        <button 
+          onclick="navigateToPage(3)" 
+          class="w-full py-4 px-6 rounded-2xl bg-gradient-to-r from-rose-500 via-pink-500 to-rose-600 hover:from-rose-600 hover:to-pink-600 text-white font-semibold text-sm sm:text-base shadow-lg shadow-rose-500/30 active:scale-95 transition-all flex items-center justify-center space-x-2 heartbeat-glow">
+          <span>Start Your Surprise ✨</span>
+          <i data-lucide="arrow-right" class="w-4 h-4"></i>
+        </button>
+      </div>
+    </section>
+
+    <!-- ========================================================================= -->
+    <!-- PAGE 3: BIRTHDAY TASKS 🎁                                                 -->
+    <!-- ========================================================================= -->
+    <section id="page3" class="page-section page-hidden py-4 text-center">
+      <div class="glass-card rounded-3xl p-5 sm:p-7 max-w-sm mx-auto">
+        
+        <div class="mb-5 text-left">
+          <span class="text-[11px] uppercase tracking-widest text-pink-300 font-semibold">Special Quests 🎁</span>
+          <h2 class="font-serif-romantic text-2xl sm:text-3xl font-bold text-white leading-tight">
+            Birthday Tasks For You
+          </h2>
+          <p class="text-xs text-pink-200/70 mt-0.5">Complete each sweet task to unlock our memories</p>
+        </div>
+
+        <!-- Interactive Task Cards Container -->
+        <div class="space-y-3.5 text-left" id="tasksList">
+          
+          <!-- TASK 1 -->
+          <div id="taskCard1" class="p-3.5 rounded-2xl bg-black/40 border border-rose-400/30 transition-all">
+            <div class="flex items-start space-x-3">
+              <div id="taskBadge1" class="w-7 h-7 rounded-full bg-rose-500/30 border border-rose-400/50 flex items-center justify-center text-xs font-bold text-pink-200 flex-shrink-0 mt-0.5">
+                1
+              </div>
+              <div class="flex-1">
+                <p class="text-xs sm:text-sm font-medium text-pink-100">
+                  Close your eyes and make your sweetest birthday wish. ❤️
+                </p>
+                <div class="mt-2 flex items-center justify-between">
+                  <span id="taskStatus1" class="text-[11px] text-pink-300/60">Take a deep breath & wish</span>
+                  <button id="taskBtn1" onclick="handleTaskComplete(1)" class="px-3 py-1 rounded-xl bg-rose-500 hover:bg-rose-600 text-white text-xs font-semibold shadow-md active:scale-90 transition-all">
+                    I've made my wish ✨
+                  </button>
+                </div>
+              </div>
+            </div>
+          </div>
+
+          <!-- TASK 2 -->
+          <div id="taskCard2" class="p-3.5 rounded-2xl bg-black/20 border border-white/10 opacity-45 pointer-events-none transition-all">
+            <div class="flex items-start space-x-3">
+              <div id="taskBadge2" class="w-7 h-7 rounded-full bg-white/10 border border-white/20 flex items-center justify-center text-xs font-bold text-pink-200/50 flex-shrink-0 mt-0.5">
+                2
+              </div>
+              <div class="flex-1">
+                <p class="text-xs sm:text-sm font-medium text-pink-100">
+                  Smile for me... because your smile is my favorite view. 😊
+                </p>
+                <div class="mt-2 flex items-center justify-between">
+                  <span id="taskStatus2" class="text-[11px] text-pink-300/60">Show your prettiest smile</span>
+                  <button id="taskBtn2" onclick="handleTaskComplete(2)" class="px-3 py-1 rounded-xl bg-rose-500 hover:bg-rose-600 text-white text-xs font-semibold shadow-md active:scale-90 transition-all">
+                    I'm smiling now 🥰
+                  </button>
+                </div>
+              </div>
+            </div>
+          </div>
+
+          <!-- TASK 3: TAP THE HEART 5 TIMES -->
+          <div id="taskCard3" class="p-3.5 rounded-2xl bg-black/20 border border-white/10 opacity-45 pointer-events-none transition-all">
+            <div class="flex items-start space-x-3">
+              <div id="taskBadge3" class="w-7 h-7 rounded-full bg-white/10 border border-white/20 flex items-center justify-center text-xs font-bold text-pink-200/50 flex-shrink-0 mt-0.5">
+                3
+              </div>
+              <div class="flex-1">
+                <p class="text-xs sm:text-sm font-medium text-pink-100">
+                  Tap the heart 5 times to unlock your surprise. ❤️
+                </p>
+                <div class="mt-2 flex items-center justify-between">
+                  <span class="text-[11px] text-rose-300 font-semibold">Taps: <span id="tapCountLabel">0</span>/5</span>
+                  <button id="taskTapHeartBtn" onclick="handleTapHeart()" class="px-3.5 py-1.5 rounded-xl bg-rose-500 hover:bg-rose-600 text-white text-xs font-bold shadow-md active:scale-90 transition-all flex items-center space-x-1">
+                    <i data-lucide="heart" class="w-3.5 h-3.5 fill-white text-white"></i>
+                    <span>Tap Heart</span>
+                  </button>
+                </div>
+              </div>
+            </div>
+          </div>
+
+          <!-- TASK 4 -->
+          <div id="taskCard4" class="p-3.5 rounded-2xl bg-black/20 border border-white/10 opacity-45 pointer-events-none transition-all">
+            <div class="flex items-start space-x-3">
+              <div id="taskBadge4" class="w-7 h-7 rounded-full bg-white/10 border border-white/20 flex items-center justify-center text-xs font-bold text-pink-200/50 flex-shrink-0 mt-0.5">
+                4
+              </div>
+              <div class="flex-1">
+                <p class="text-xs sm:text-sm font-medium text-pink-100">
+                  Remember our most beautiful memory together.
+                </p>
+                <div class="mt-2 flex items-center justify-between">
+                  <span id="taskStatus4" class="text-[11px] text-pink-300/60">Hold it close to your heart</span>
+                  <button id="taskBtn4" onclick="handleTaskComplete(4)" class="px-3 py-1 rounded-xl bg-rose-500 hover:bg-rose-600 text-white text-xs font-semibold shadow-md active:scale-90 transition-all">
+                    I remember it vividly 💕
+                  </button>
+                </div>
+              </div>
+            </div>
+          </div>
+
+        </div>
+
+        <button 
+          id="tasksContinueBtn" 
+          disabled 
+          onclick="navigateToPage(4)" 
+          class="w-full mt-5 py-4 px-6 rounded-2xl bg-gradient-to-r from-rose-500 via-pink-500 to-rose-600 text-white font-semibold text-sm shadow-lg opacity-40 cursor-not-allowed transition-all flex items-center justify-center space-x-2">
+          <span>View Our 20 Memories 📸</span>
+          <i data-lucide="sparkles" class="w-4 h-4"></i>
+        </button>
+      </div>
+    </section>
+
+    <!-- ========================================================================= -->
+    <!-- PAGE 4: OUR 20 MEMORIES (ENLARGED POLAROID CAROUSEL & GRID)               -->
+    <!-- ========================================================================= -->
+    <section id="page4" class="page-section page-hidden py-2">
+      <div class="glass-card rounded-3xl p-4 sm:p-6 max-w-sm mx-auto">
+        
+        <div class="flex items-center justify-between mb-3">
+          <div>
+            <span class="text-[11px] uppercase tracking-widest text-pink-300 font-semibold">20 Polaroid Moments 📸</span>
+            <h2 class="font-serif-romantic text-2xl font-bold text-white">Our Memories</h2>
+          </div>
+
+          <!-- Mode Toggle: Slideshow vs Grid -->
+          <div class="flex bg-black/40 p-1 rounded-xl border border-white/10 text-xs">
+            <button id="viewCardBtn" onclick="switchGalleryMode('card')" class="px-2.5 py-1 rounded-lg bg-rose-500 text-white font-medium">Card</button>
+            <button id="viewGridBtn" onclick="switchGalleryMode('grid')" class="px-2.5 py-1 rounded-lg text-pink-200/70 hover:text-white">Grid</button>
+          </div>
+        </div>
+
+        <!-- SLIDESHOW CAROUSEL VIEW -->
+        <div id="galleryCardSection" class="flex flex-col items-center">
+          
+          <!-- Polaroid Frame -->
+          <div id="activePolaroid" class="polaroid-card w-full max-w-[320px] p-3 pb-3.5 rounded-2xl relative transition-all duration-300 cursor-pointer select-none" onclick="nextMemory()">
+            <div class="relative w-full h-[280px] rounded-xl overflow-hidden bg-neutral-950 shadow-inner flex items-center justify-center">
+              
+              <!-- Blurred backdrop -->
+              <div id="polaroidBgBlur" class="absolute inset-0 bg-cover bg-center filter blur-lg opacity-40 scale-110 pointer-events-none"></div>
+
+              <!-- Main Image -->
+              <img 
+                id="polaroidImgElement" 
+                src="/img/back.jpeg" 
+                alt="Memory Polaroid" 
+                class="relative z-10 w-full h-full object-contain object-center transition-transform duration-500 hover:scale-105"
+                onerror="this.src='https://placehold.co/600x600/2a1625/ffb3c1?text=Memory+Photo';"
+              />
+              <span id="polaroidIndexBadge" class="absolute top-2.5 left-2.5 z-20 bg-black/70 backdrop-blur-md text-white font-mono text-[10px] px-2 py-0.5 rounded-md border border-white/20">
+                #01 / 20
+              </span>
+            </div>
+
+            <div class="pt-2.5 px-1 text-center">
+              <p id="polaroidCaptionElement" class="font-serif-romantic text-gray-800 text-base sm:text-lg font-semibold italic min-h-[40px] flex items-center justify-center leading-snug">
+                "Our first beautiful memory ❤️"
+              </p>
+              <span id="polaroidTagElement" class="text-[10px] font-mono text-gray-400 uppercase tracking-widest block mt-0.5">
+                [MEMORY PHOTO 1]
+              </span>
+            </div>
+          </div>
+
+          <!-- Carousel Controls -->
+          <div class="flex items-center justify-between w-full max-w-[320px] mt-3">
+            <button 
+              onclick="prevMemory()" 
+              class="w-8 h-8 rounded-full bg-white/10 hover:bg-white/20 border border-white/20 flex items-center justify-center text-white active:scale-90 transition-all">
+              <i data-lucide="chevron-left" class="w-4 h-4"></i>
+            </button>
+            
+            <div class="flex items-center space-x-1.5 overflow-x-auto max-w-[180px] px-2 py-1 scrollbar-none" id="memoryCarouselDots"></div>
+
+            <button 
+              onclick="nextMemory()" 
+              class="w-8 h-8 rounded-full bg-white/10 hover:bg-white/20 border border-white/20 flex items-center justify-center text-white active:scale-90 transition-all">
+              <i data-lucide="chevron-right" class="w-4 h-4"></i>
+            </button>
+          </div>
+        </div>
+
+        <!-- 20 PHOTOS GRID VIEW -->
+        <div id="galleryGridSection" class="hidden grid-cols-2 gap-2.5 max-h-[340px] overflow-y-auto pr-1"></div>
+
+        <button 
+          onclick="navigateToPage(5)" 
+          class="w-full mt-4 py-3.5 px-6 rounded-2xl bg-gradient-to-r from-rose-500 via-pink-500 to-rose-600 hover:from-rose-600 hover:to-pink-600 text-white font-semibold text-sm shadow-lg shadow-rose-500/30 active:scale-95 transition-all flex items-center justify-center space-x-2">
+          <span>Explore Our Timeline 💕</span>
+          <i data-lucide="sparkle" class="w-4 h-4"></i>
+        </button>
+      </div>
+    </section>
+
+    <!-- ========================================================================= -->
+    <!-- PAGE 5: OUR MEMORY TIMELINE 💕                                            -->
+    <!-- ========================================================================= -->
+    <section id="page5" class="page-section page-hidden py-4">
+      <div class="glass-card rounded-3xl p-5 sm:p-7 max-w-sm mx-auto">
+        
+        <div class="text-center mb-5">
+          <span class="text-[11px] uppercase tracking-widest text-pink-300 font-semibold bg-rose-500/20 px-3 py-1 rounded-full border border-rose-400/30">
+            Our Story 💕
+          </span>
+          <h2 class="font-serif-romantic text-2xl sm:text-3xl font-bold text-white mt-2">
+            Memory Timeline
+          </h2>
+          <p class="text-xs text-pink-200/80 mt-0.5">Every chapter with you is my favorite</p>
+        </div>
+
+        <!-- Vertical Timeline milestones -->
+        <div class="relative border-l-2 border-rose-500/30 ml-3 pl-5 space-y-5 text-left my-4">
+          
+          <div class="relative group">
+            <div class="absolute -left-[27px] top-1 w-3.5 h-3.5 rounded-full bg-rose-500 border-2 border-[#12071a]"></div>
+            <h3 class="text-base font-bold text-rose-300 font-serif-romantic">The Beginning</h3>
+            <p class="text-xs text-pink-100/75 font-light mt-0.5">**March 29, 2024** — The first day I saw you in a black saree with a red flower. It was our farewell party, and that day, I started liking you even more. ❤️</p>
+          </div>
+
+          <div class="relative group">
+            <div class="absolute -left-[27px] top-1 w-3.5 h-3.5 rounded-full bg-pink-400 border-2 border-[#12071a]"></div>
+            <h3 class="text-base font-bold text-pink-200 font-serif-romantic">Our First Talk & Our First Photo</h3>
+            <p class="text-xs text-pink-100/75 font-light mt-0.5">**April 2, 2026** — the day we started talking. I will never forget that day because that was the day our story started and our journey began.
+
+Then came our first meeting at our friend’s wedding. That was the day we took our first photo together. I was very, very happy that day, and I will always remember it.
+
+But then your dad came and told you that it was getting late and you had to go home. I looked at you and saw that you were sad and crying. Seeing you cry made me sad too.
+
+I will never forget that day because it was the beginning of our beautiful journey together. ❤️</p>
+          </div>
+
+          <div class="relative group">
+            <div class="absolute -left-[27px] top-1 w-3.5 h-3.5 rounded-full bg-rose-400 border-2 border-[#12071a]"></div>
+            <h3 class="text-base font-bold text-rose-300 font-serif-romantic">Our Crazy Moments</h3>
+            <p class="text-xs text-pink-100/75 font-light mt-0.5">Our crazy moments are some of my favorite memories — laughing together for no reason, talking for hours about random things, teasing each other, having small fights and then saying sorry, taking silly photos, talking late at night on video calls, and sometimes falling asleep while still on the call. These small and crazy moments with you make our story so special, and I will always remember them. ❤️</p>
+          </div>
+
+          <div class="relative group">
+            <div class="absolute -left-[27px] top-1 w-3.5 h-3.5 rounded-full bg-pink-300 border-2 border-[#12071a]"></div>
+            <h3 class="text-base font-bold text-pink-200 font-serif-romantic">Our Favorite Memories</h3>
+            <p class="text-xs text-pink-100/75 font-light mt-0.5">All the days I spent with you are my favorite memories. Taking photos together, talking late at night on video calls, and falling asleep without ending the call — these are also some of my favorite memories. ❤️</p>
+          </div>
+
+          <div class="relative group">
+            <div class="absolute -left-[27px] top-1 w-3.5 h-3.5 rounded-full bg-rose-500 border-2 border-[#12071a]"></div>
+            <h3 class="text-base font-bold text-rose-300 font-serif-romantic">Everything We Have Shared</h3>
+            <p class="text-xs text-pink-100/75 font-light mt-0.5">Everything we have shared together is very special to me. Our first talk, our first photo, all the days we spent together, our late-night video calls, our laughs, our small fights, growing together, laughing together, and supporting each other through it all — every moment with you is a beautiful memory that I will always keep in my heart. ❤️</p>
+          </div>
+
+          <div class="relative group">
+            <div class="absolute -left-[27px] top-1 w-3.5 h-3.5 rounded-full bg-yellow-300 border-2 border-[#12071a] animate-pulse"></div>
+            <h3 class="text-base font-bold text-yellow-200 font-serif-romantic">And many more memories waiting for us... ✨</h3>
+            <p class="text-xs text-pink-100/85 font-light mt-0.5">The best chapters of our love story are still ahead.</p>
+          </div>
+
+        </div>
+
+        <button 
+          onclick="navigateToPage(6)" 
+          class="w-full mt-5 py-4 px-6 rounded-2xl bg-gradient-to-r from-rose-500 via-pink-500 to-rose-600 hover:from-rose-600 hover:to-pink-600 text-white font-semibold text-sm shadow-lg shadow-rose-500/30 active:scale-95 transition-all flex items-center justify-center space-x-2">
+          <span>Read My Letter To You 💌</span>
+          <i data-lucide="mail-open" class="w-4 h-4"></i>
+        </button>
+      </div>
+    </section>
+
+    <!-- ========================================================================= -->
+    <!-- PAGE 6: LONG BIRTHDAY WISH LETTER 💌                                      -->
+    <!-- ========================================================================= -->
+    <section id="page6" class="page-section page-hidden py-4">
+      <div class="glass-card rounded-3xl p-5 sm:p-7 max-w-sm mx-auto relative overflow-hidden">
+        
+        <!-- Header Wax Seal -->
+        <div class="flex items-center justify-between border-b border-rose-400/20 pb-3 mb-3">
+          <div class="flex items-center space-x-2">
+            <div class="w-6 h-6 rounded-full wax-seal flex items-center justify-center text-[9px] font-bold text-amber-200">
+              ❤️
+            </div>
+            <span class="text-xs font-serif-romantic uppercase tracking-widest text-pink-300">A Letter From The Heart</span>
+          </div>
+          <span class="text-[10px] font-mono text-pink-300/60">For You Only</span>
+        </div>
+
+        <!-- Scrollable Letter Body -->
+        <div class="max-h-[50vh] overflow-y-auto pr-2 space-y-3.5 text-xs sm:text-sm text-pink-100/90 leading-relaxed font-light text-left">
+          
+          <p class="font-serif-romantic text-base text-rose-300 font-semibold leading-snug">
+            Happy Birthday to the most beautiful and special person in my life. ❤️
+          </p>
+
+          <p>
+            Today is your day, but honestly, I feel lucky every day because you are a part of my life. Your presence has brought so many beautiful moments, smiles and memories into my world. I don't know if words will ever be enough to explain how special you are to me, but today I want to try.
+          </p>
+
+          <p>
+            I hope this birthday brings you all the happiness your heart deserves. I hope you always keep that beautiful smile on your face, because seeing you happy is one of my favorite things in the world.
+          </p>
+
+          <p>
+            Thank you for being there, for understanding me, for making ordinary moments feel special, and for giving me memories that I will always keep close to my heart.
+          </p>
+
+          <p>
+            When I look at our photos, I don't just see pictures. I see moments, feelings, laughter, silly conversations, beautiful days and memories that became a part of my heart. Every memory with you is precious to me.
+          </p>
+
+          <p>
+            I wish I could collect every happiness in this world and give it to you. I wish I could protect you from every sadness and replace every difficult moment with a reason to smile.
+          </p>
+
+          <p class="text-rose-200 font-medium">
+            On your birthday, I want you to know one simple thing — you are incredibly special to me. ❤️
+          </p>
+
+          <p>
+            May you achieve everything you dream about. May your life always be filled with love, success, peace and happiness. And whenever life becomes difficult, I hope you remember that there will always be someone wishing for your happiness from the bottom of his heart.
+          </p>
+
+          <p class="text-pink-200">
+            Happiest Birthday, Kittuuu.. 🎂❤️<br>
+            Thank you for becoming one of the most beautiful chapters of my life.
+          </p>
+
+          <p>
+            Today, tomorrow and in all the beautiful memories we have yet to create, I hope we continue to smile, laugh, fight over silly things, make up, create crazy memories and enjoy every little moment together.
+          </p>
+
+          <div class="bg-rose-950/40 p-3.5 rounded-2xl border border-rose-400/30 text-center my-2">
+            <p class="text-xs sm:text-sm font-serif-romantic italic text-rose-200">
+              "You are not just a memory in my life.<br>
+              You are one of the reasons my memories are beautiful."
+            </p>
+          </div>
+
+          <p>
+            Happy Birthday once again, my beautiful girl. ❤️<br>
+            Keep smiling, keep shining and never forget how special you are to me.
+          </p>
+
+          <div class="pt-3 text-right">
+            <p class="text-xs text-pink-300">With all my love,</p>
+            <p id="letterAuthorSignature" class="font-script text-2xl text-rose-300 mt-0.5">[YOUR NAME] ❤️</p>
+          </div>
+
+        </div>
+
+        <button 
+          onclick="navigateToPage(7)" 
+          class="w-full mt-4 py-4 px-6 rounded-2xl bg-gradient-to-r from-rose-500 via-pink-500 to-rose-600 hover:from-rose-600 hover:to-pink-600 text-white font-semibold text-sm shadow-lg shadow-rose-500/30 active:scale-95 transition-all flex items-center justify-center space-x-2">
+          <span>One Last Surprise... 🎉</span>
+          <i data-lucide="gift" class="w-4 h-4"></i>
+        </button>
+      </div>
+    </section>
+
+    <!-- ========================================================================= -->
+    <!-- PAGE 7: FINAL SURPRISE 🎉                                                 -->
+    <!-- ========================================================================= -->
+    <section id="page7" class="page-section page-hidden py-4 text-center">
+      <div class="glass-card rounded-3xl p-6 sm:p-8 max-w-sm mx-auto relative overflow-hidden">
+        
+        <!-- Animated beating heart -->
+        <div class="relative w-24 h-24 mx-auto mb-4">
+          <div class="absolute inset-0 bg-gradient-to-tr from-rose-600 to-pink-500 rounded-full blur-xl opacity-70 animate-pulse"></div>
+          <div class="relative w-full h-full rounded-full bg-gradient-to-tr from-rose-600 via-pink-500 to-rose-400 flex items-center justify-center shadow-2xl heartbeat-glow cursor-pointer" onclick="triggerGrandFinale()">
+            <i data-lucide="heart" class="w-12 h-12 text-white fill-white animate-bounce"></i>
+          </div>
+        </div>
+
+        <h2 class="font-serif-romantic text-3xl font-bold text-white mb-2">
+          One Last Surprise... <span class="text-rose-400">❤️</span>
+        </h2>
+
+        <!-- Emotional Summary for 20 memories -->
+        <div class="space-y-1 text-xs sm:text-sm text-pink-100/90 font-light my-4 bg-black/35 py-3.5 px-3 rounded-2xl border border-rose-400/20">
+          <p>20 memories.</p>
+          <p>Countless smiles.</p>
+          <p>Thousands of feelings.</p>
+          <p class="font-semibold text-rose-300 pt-1">And one very special person — YOU. ❤️</p>
+        </div>
+
+        <!-- Grand Finale Button -->
+        <div id="finalActionWrapper">
+          <button 
+            id="grandSurpriseBtn"
+            onclick="triggerGrandFinale()" 
+            class="w-full py-4 px-6 rounded-2xl bg-gradient-to-r from-rose-500 via-pink-500 to-rose-600 hover:from-rose-600 hover:to-pink-600 text-white font-bold text-sm sm:text-base shadow-xl shadow-rose-500/40 active:scale-95 transition-all flex items-center justify-center space-x-2 animate-pulse">
+            <span>Tap For Your Final Surprise 💖</span>
+          </button>
+        </div>
+
+        <!-- Grand Reveal Card (Revealed on click) -->
+        <div id="grandRevealBox" class="hidden mt-4 p-5 rounded-2xl bg-gradient-to-b from-rose-950/80 via-black/80 to-pink-950/80 border border-rose-400/50 shadow-2xl transition-all duration-700">
+          <div class="text-3xl mb-1 animate-bounce">🎉 💖 🎂</div>
+          
+          <h3 class="font-script text-4xl text-rose-300 font-bold mb-1">
+            I Love You ❤️
+          </h3>
+          
+          <h4 class="font-serif-romantic text-lg sm:text-xl font-bold text-white mt-2">
+            Happy Birthday, <span id="finalGfName" class="text-pink-300 underline underline-offset-4 decoration-rose-500">Billuu</span> 🎂
+          </h4>
+          
+          <div class="w-16 h-0.5 bg-gradient-to-r from-transparent via-rose-400 to-transparent mx-auto my-3"></div>
+
+          <p class="text-[11px] text-pink-200/80">Forever & Always,</p>
+          <p id="finalYourName" class="font-serif-romantic text-base font-bold text-rose-300 mt-0.5">
+            Annyyaa
+          </p>
+
+          <button 
+            onclick="navigateToPage(2)" 
+            class="mt-4 px-4 py-2 rounded-xl bg-white/10 hover:bg-white/20 border border-white/20 text-xs font-semibold text-pink-200 transition-all">
+            ✨ Relive This Surprise
+          </button>
+        </div>
+
+      </div>
+    </section>
+
+  </main>
+
+  <!-- IN-APP PERSONALIZATION / QUICK CONFIG MODAL -->
+  <div id="personalizeModal" class="fixed inset-0 z-50 bg-black/85 backdrop-blur-md hidden items-center justify-center p-4">
+    <div class="glass-card w-full max-w-sm rounded-3xl p-5 border border-rose-400/40 max-h-[85vh] overflow-y-auto">
+      <div class="flex items-center justify-between pb-3 border-b border-rose-400/20 mb-3">
+        <div class="flex items-center space-x-2">
+          <i data-lucide="sparkles" class="w-4 h-4 text-rose-400"></i>
+          <h3 class="font-bold text-sm text-white">Customize Details</h3>
+        </div>
+        <button onclick="closePersonalizeModal()" class="w-7 h-7 rounded-full bg-white/10 flex items-center justify-center text-pink-200 hover:text-white">
+          <i data-lucide="x" class="w-3.5 h-3.5"></i>
+        </button>
+      </div>
+
+      <div class="space-y-3 text-xs text-left">
+        <div>
+          <label class="block text-pink-200 font-medium mb-1">Girlfriend's Name</label>
+          <input type="text" id="cfgGfName" class="w-full px-3 py-2 rounded-xl bg-black/50 border border-rose-400/40 text-white focus:outline-none focus:ring-1 focus:ring-rose-400">
+        </div>
+
+        <div>
+          <label class="block text-pink-200 font-medium mb-1">Your Name</label>
+          <input type="text" id="cfgYourName" class="w-full px-3 py-2 rounded-xl bg-black/50 border border-rose-400/40 text-white focus:outline-none focus:ring-1 focus:ring-rose-400">
+        </div>
+
+        <div>
+          <label class="block text-pink-200 font-medium mb-1">Secret Password</label>
+          <input type="text" id="cfgPassword" class="w-full px-3 py-2 rounded-xl bg-black/50 border border-rose-400/40 text-white focus:outline-none focus:ring-1 focus:ring-rose-400">
+        </div>
+
+        <div>
+          <label class="block text-pink-200 font-medium mb-1">Couple Wallpaper Image URL</label>
+          <input type="text" id="cfgBgUrl" placeholder="https://..." class="w-full px-3 py-2 rounded-xl bg-black/50 border border-rose-400/40 text-white focus:outline-none focus:ring-1 focus:ring-rose-400">
+        </div>
+
+        <button 
+          onclick="savePersonalization()" 
+          class="w-full py-2.5 rounded-xl bg-gradient-to-r from-rose-500 to-pink-500 text-white font-bold shadow-lg mt-1 active:scale-95 transition-transform">
+          Save & Apply ❤️
+        </button>
+      </div>
+    </div>
+  </div>
+
+  <script>
+    /* ==========================================================================
+       GLOBAL CONFIGURATION
+       ========================================================================== */
+    const CONFIG = {
+      password: "Billuu",
+      girlfriendName: "Kittuu",
+      yourName: "Annyyaa",
+      coupleBgImage: "./img/back.jpeg" ,
+
+      memories: [
+        {
+          id: 1,
+          tag: "[MEMORY PHOTO 1]",
+          caption: "The day I saw you in that black saree ❤️",
+          url: "./img/img1.jpeg"
+        },
+        {
+          id: 2,
+          tag: "[MEMORY PHOTO 2]",
+          caption: "That red flower in your hair...",
+          url: "./img/img2.jpeg"
+        },
+        {
+          id: 3,
+          tag: "[MEMORY PHOTO 3]",
+          caption: "Our very first conversation ✨",
+          url: "./img/img02.jpeg"
+        },
+        {
+          id: 4,
+          tag: "[MEMORY PHOTO 4]",
+          caption: "Our first photo together at the wedding",
+          url: "./img/img3.jpeg"
+        },
+        {
+          id: 5,
+          tag: "[MEMORY PHOTO 5]",
+          caption: "When you had to leave and we were both sad 🥺",
+          url: "./img/img4.jpeg"
+        },
+        {
+          id: 6,
+          tag: "[MEMORY PHOTO 6]",
+          caption: "Looking at you and knowing you're special",
+          url: "./img/img5.jpeg"
+        },
+        {
+          id: 7,
+          tag: "[MEMORY PHOTO 7]",
+          caption: "Our crazy moments and endless laughter",
+          url: "./img/img6.jpeg"
+        },
+        {
+          id: 8,
+          tag: "[MEMORY PHOTO 8]",
+          caption: "Talking for hours about random things",
+          url: "./img/img7.jpeg"
+        },
+        {
+          id: 9,
+          tag: "[MEMORY PHOTO 9]",
+          caption: "Teasing each other and smiling",
+          url: "./img/img8.jpeg"
+        },
+        {
+          id: 10,
+          tag: "[MEMORY PHOTO 10]",
+          caption: "Our cute little fights and saying sorry 💕",
+          url: "./img/img9.jpeg"
+        },
+        {
+          id: 11,
+          tag: "[MEMORY PHOTO 11]",
+          caption: "Silly photos that always make me smile",
+          url: "./img/img10.jpeg"
+        },
+        {
+          id: 12,
+          tag: "[MEMORY PHOTO 12]",
+          caption: "Late night video calls until the morning",
+          url: "./img/img11.jpeg"
+        },
+        {
+          id: 13,
+          tag: "[MEMORY PHOTO 13]",
+          caption: "Falling asleep while still on call 😴",
+          url: "./img/img12.jpeg"
+        },
+        {
+          id: 14,
+          tag: "[MEMORY PHOTO 14]",
+          caption: "Every single day spent with you is a favorite",
+          url: "./img/img13.jpeg"
+        },
+        {
+          id: 15,
+          tag: "[MEMORY PHOTO 15]",
+          caption: "Supporting each other through everything",
+          url: "./img/img14.jpeg"
+        },
+        {
+          id: 16,
+          tag: "[MEMORY PHOTO 16]",
+          caption: "Your comforting voice when I need it",
+          url: "./img/img15.jpeg"
+        },
+        {
+          id: 17,
+          tag: "[MEMORY PHOTO 17]",
+          caption: "Dancing around without a care in the world",
+          url: "./img/img16.jpeg"
+        },
+        {
+          id: 18,
+          tag: "[MEMORY PHOTO 18]",
+          caption: "You are my favorite notification 💌",
+          url: "./img/img17.jpeg"
+        },
+        {
+          id: 19,
+          tag: "[MEMORY PHOTO 19]",
+          caption: "All our beautiful memories together",
+          url: "./img/img20.jpeg"
+        },
+        {
+          id: 20,
+          tag: "[MEMORY PHOTO 20]",
+          caption: "Here is to a lifetime of memories ❤️",
+          url: "./img/img19.jpeg"
+        }
+      ]
+    };
+
+    /* App State Variables */
+    let currentPageNumber = 1;
+    let currentMemoryCardIndex = 0;
+    let heartTapsDone = 0;
+    const requiredHeartTapsTotal = 5;
+    let completedTasksMap = { 1: false, 2: false, 3: false, 4: false };
+
+    /* Web Audio Synthesizer State */
+    let audioCtx = null;
+    let isMelodyPlaying = false;
+    let melodyTimer = null;
+
+    function initAudioContext() {
+      if (!audioCtx) {
+        const AudioContext = window.AudioContext || window.webkitAudioContext;
+        audioCtx = new AudioContext();
+      }
+      if (audioCtx.state === 'suspended') {
+        audioCtx.resume();
+      }
+    }
+
+    function playTone(frequency = 523.25, duration = 1.0, waveType = 'sine', volume = 0.12) {
+      try {
+        initAudioContext();
+        const osc = audioCtx.createOscillator();
+        const gain = audioCtx.createGain();
+        osc.type = waveType;
+        osc.frequency.setValueAtTime(frequency, audioCtx.currentTime);
+        
+        gain.gain.setValueAtTime(volume, audioCtx.currentTime);
+        gain.gain.exponentialRampToValueAtTime(0.0001, audioCtx.currentTime + duration);
+        
+        osc.connect(gain);
+        gain.connect(audioCtx.destination);
+        
+        osc.start();
+        osc.stop(audioCtx.currentTime + duration);
+      } catch (e) {
+        console.warn("Audio interaction needed", e);
+      }
+    }
+
+    function startRomanticLullaby() {
+      initAudioContext();
+      isMelodyPlaying = true;
+      refreshAudioIcon();
+
+      const chords = [
+        261.63, 329.63, 392.00, 523.25, // C Major
+        220.00, 261.63, 329.63, 440.00, // A Minor
+        174.61, 220.00, 261.63, 349.23, // F Major
+        196.00, 246.94, 293.66, 392.00  // G Major
+      ];
+      let step = 0;
+
+      if (melodyTimer) clearInterval(melodyTimer);
+      melodyTimer = setInterval(() => {
+        if (!isMelodyPlaying) return;
+        const note = chords[step % chords.length];
+        playTone(note, 1.6, 'triangle', 0.05);
+        if (step % 2 === 0) {
+          setTimeout(() => {
+            if (isMelodyPlaying) playTone(note * 1.5, 1.2, 'sine', 0.03);
+          }, 320);
+        }
+        step++;
+      }, 650);
+    }
+
+    function stopRomanticLullaby() {
+      isMelodyPlaying = false;
+      if (melodyTimer) {
+        clearInterval(melodyTimer);
+        melodyTimer = null;
+      }
+      refreshAudioIcon();
+    }
+
+    function toggleRomanticMusic() {
+      initAudioContext();
+      if (isMelodyPlaying) {
+        stopRomanticLullaby();
+      } else {
+        startRomanticLullaby();
+      }
+    }
+
+    function refreshAudioIcon() {
+      const icon = document.getElementById('musicIcon');
+      if (!icon) return;
+      if (isMelodyPlaying) {
+        icon.setAttribute('data-lucide', 'volume-2');
+        icon.classList.add('text-rose-400');
+      } else {
+        icon.setAttribute('data-lucide', 'volume-x');
+        icon.classList.remove('text-rose-400');
+      }
+      lucide.createIcons();
+    }
+
+    function navigateToPage(targetPageNum) {
+      if (targetPageNum === currentPageNumber) return;
+      
+      playTone(493.88, 0.35);
+
+      const activeEl = document.getElementById(`page${currentPageNumber}`);
+      if (activeEl) {
+        activeEl.classList.remove('page-active');
+        activeEl.classList.add('page-hidden');
+      }
+
+      const targetEl = document.getElementById(`page${targetPageNum}`);
+      if (targetEl) {
+        targetEl.classList.remove('page-hidden');
+        targetEl.classList.add('page-active');
+      }
+
+      currentPageNumber = targetPageNum;
+      window.scrollTo({ top: 0, behavior: 'smooth' });
+
+      const navbar = document.getElementById('topNavbar');
+      if (targetPageNum > 1) {
+        navbar.classList.remove('opacity-0', 'pointer-events-none');
+        navbar.classList.add('opacity-100', 'pointer-events-auto');
+        refreshStepDots();
+      } else {
+        navbar.classList.add('opacity-0', 'pointer-events-none');
+        navbar.classList.remove('opacity-100', 'pointer-events-auto');
+      }
+
+      setTimeout(() => lucide.createIcons(), 50);
+    }
+
+    function refreshStepDots() {
+      const textLabel = document.getElementById('stepIndicatorText');
+      const dotsContainer = document.getElementById('stepDots');
+      
+      const totalSteps = 6;
+      const currentStep = Math.max(1, currentPageNumber - 1);
+      
+      textLabel.innerText = `Step ${currentStep} of ${totalSteps}`;
+      dotsContainer.innerHTML = '';
+
+      for (let i = 1; i <= totalSteps; i++) {
+        const dot = document.createElement('div');
+        dot.className = `w-1.5 h-1.5 rounded-full transition-all duration-300 ${
+          i === currentStep 
+            ? 'w-3.5 bg-rose-400' 
+            : i < currentStep 
+              ? 'bg-rose-500/80' 
+              : 'bg-white/20'
+        }`;
+        dotsContainer.appendChild(dot);
+      }
+    }
+
+    function validatePassword() {
+      initAudioContext();
+      const inputEl = document.getElementById('passwordInput');
+      const errorEl = document.getElementById('passwordError');
+      const enteredPass = (inputEl.value || '').trim();
+
+      if (enteredPass.toLowerCase() === CONFIG.password.toLowerCase()) {
+        errorEl.classList.add('hidden');
+        playTone(659.25, 0.8, 'sine', 0.2);
+        
+        confetti({
+          particleCount: 60,
+          spread: 70,
+          origin: { y: 0.6 },
+          colors: ['#ff4d6d', '#ff758f', '#ffb3c1', '#ffffff']
+        });
+
+        startRomanticLullaby();
+
+        setTimeout(() => {
+          navigateToPage(2);
+        }, 450);
+      } else {
+        playTone(196, 0.3, 'sawtooth', 0.1);
+        errorEl.classList.remove('hidden');
+        
+        const card = inputEl.closest('.glass-card');
+        card.classList.remove('animate-shake');
+        void card.offsetWidth;
+        card.classList.add('animate-shake');
+      }
+    }
+
+    function togglePasswordPeek() {
+      const inputEl = document.getElementById('passwordInput');
+      const iconEl = document.getElementById('peekIcon');
+      if (inputEl.type === 'password') {
+        inputEl.type = 'text';
+        iconEl.setAttribute('data-lucide', 'eye-off');
+      } else {
+        inputEl.type = 'password';
+        iconEl.setAttribute('data-lucide', 'eye');
+      }
+      lucide.createIcons();
+    }
+
+    function handleTaskComplete(taskNum) {
+      initAudioContext();
+      playTone(523.25 + (taskNum * 40), 0.5);
+      completedTasksMap[taskNum] = true;
+
+      const card = document.getElementById(`taskCard${taskNum}`);
+      const btn = document.getElementById(`taskBtn${taskNum}`);
+      const badge = document.getElementById(`taskBadge${taskNum}`);
+      const status = document.getElementById(`taskStatus${taskNum}`);
+
+      if (badge) {
+        badge.innerHTML = '✓';
+        badge.className = 'w-7 h-7 rounded-full bg-emerald-500/30 border border-emerald-400 flex items-center justify-center text-xs font-bold text-emerald-300 flex-shrink-0 mt-0.5';
+      }
+      if (btn) {
+        btn.innerHTML = 'Completed ❤️';
+        btn.disabled = true;
+        btn.className = 'px-3 py-1 rounded-xl bg-emerald-500/20 border border-emerald-400/40 text-emerald-300 text-xs font-medium cursor-default';
+      }
+      if (status) {
+        status.innerText = 'Done with love ✨';
+        status.className = 'text-xs text-emerald-300/80 italic font-medium';
+      }
+
+      // Unlock next task card
+      const nextTaskNum = taskNum + 1;
+      const nextCard = document.getElementById(`taskCard${nextTaskNum}`);
+      if (nextCard) {
+        nextCard.classList.remove('opacity-45', 'pointer-events-none', 'bg-black/20', 'border-white/10');
+        nextCard.classList.add('bg-black/40', 'border-rose-400/30');
+        const nextBadge = document.getElementById(`taskBadge${nextTaskNum}`);
+        if (nextBadge) {
+          nextBadge.className = 'w-7 h-7 rounded-full bg-rose-500/30 border border-rose-400/50 flex items-center justify-center text-xs font-bold text-pink-200 flex-shrink-0 mt-0.5';
+        }
+      }
+
+      verifyAllTasksFinished();
+    }
+
+    function handleTapHeart() {
+      initAudioContext();
+      heartTapsDone++;
+      playTone(380 + (heartTapsDone * 90), 0.3);
+
+      const counter = document.getElementById('tapCountLabel');
+      if (counter) counter.innerText = heartTapsDone;
+
+      confetti({
+        particleCount: 14,
+        spread: 45,
+        origin: { y: 0.65 },
+        colors: ['#ff4d6d', '#ffb3c1', '#ffffff']
+      });
+
+      if (heartTapsDone >= requiredHeartTapsTotal) {
+        const btn = document.getElementById('taskTapHeartBtn');
+        btn.disabled = true;
+        btn.classList.add('opacity-80');
+        btn.innerHTML = '<span class="text-xs font-bold text-white">Unlocked!</span>';
+        handleTaskComplete(3);
+      }
+    }
+
+    function verifyAllTasksFinished() {
+      const isEverythingDone = completedTasksMap[1] && completedTasksMap[2] && completedTasksMap[3] && completedTasksMap[4];
+      if (isEverythingDone) {
+        const continueBtn = document.getElementById('tasksContinueBtn');
+        continueBtn.disabled = false;
+        continueBtn.classList.remove('opacity-40', 'cursor-not-allowed');
+        continueBtn.classList.add('heartbeat-glow', 'hover:from-rose-600', 'hover:to-pink-600');
+
+        confetti({
+          particleCount: 65,
+          spread: 80,
+          origin: { y: 0.7 }
+        });
+      }
+    }
+
+    function displayActiveMemory() {
+      const memory = CONFIG.memories[currentMemoryCardIndex];
+      const img = document.getElementById('polaroidImgElement');
+      const bgBlur = document.getElementById('polaroidBgBlur');
+      const caption = document.getElementById('polaroidCaptionElement');
+      const tag = document.getElementById('polaroidTagElement');
+      const badge = document.getElementById('polaroidIndexBadge');
+      const card = document.getElementById('activePolaroid');
+
+      const tilt = (currentMemoryCardIndex % 2 === 0 ? -2 : 2);
+      card.style.transform = `rotate(${tilt}deg)`;
+
+      img.src = memory.url;
+      bgBlur.style.backgroundImage = `url('${memory.url}')`;
+      caption.innerText = `"${memory.caption}"`;
+      tag.innerText = memory.tag;
+      badge.innerText = `#${memory.id < 10 ? '0' + memory.id : memory.id} / 20`;
+
+      const dotsWrapper = document.getElementById('memoryCarouselDots');
+      dotsWrapper.innerHTML = '';
+      CONFIG.memories.forEach((_, idx) => {
+        const dot = document.createElement('div');
+        dot.className = `w-1.5 h-1.5 rounded-full cursor-pointer flex-shrink-0 transition-all ${idx === currentMemoryCardIndex ? 'w-3.5 bg-rose-400' : 'bg-white/30'}`;
+        dot.onclick = () => {
+          currentMemoryCardIndex = idx;
+          displayActiveMemory();
+        };
+        dotsWrapper.appendChild(dot);
+      });
+    }
+
+    function nextMemory() {
+      playTone(520, 0.2);
+      currentMemoryCardIndex = (currentMemoryCardIndex + 1) % CONFIG.memories.length;
+      displayActiveMemory();
+    }
+
+    function prevMemory() {
+      playTone(520, 0.2);
+      currentMemoryCardIndex = (currentMemoryCardIndex - 1 + CONFIG.memories.length) % CONFIG.memories.length;
+      displayActiveMemory();
+    }
+
+    function renderMemoryGridItems() {
+      const grid = document.getElementById('galleryGridSection');
+      grid.innerHTML = '';
+      CONFIG.memories.forEach((mem, idx) => {
+        const item = document.createElement('div');
+        item.className = 'polaroid-card p-2 rounded-xl text-center cursor-pointer transition-transform hover:scale-105';
+        item.onclick = () => {
+          currentMemoryCardIndex = idx;
+          switchGalleryMode('card');
+          displayActiveMemory();
+        };
+        item.innerHTML = `
+          <div class="relative aspect-square rounded-lg overflow-hidden bg-neutral-900 flex items-center justify-center">
+            <div class="absolute inset-0 bg-cover bg-center filter blur-md opacity-30" style="background-image: url('${mem.url}')"></div>
+            <img src="${mem.url}" alt="${mem.tag}" class="relative z-10 w-full h-full object-contain object-center" onerror="this.src='https://placehold.co/300x300/2a1625/ffb3c1?text=Memory';">
+          </div>
+          <p class="text-[10px] font-semibold text-gray-800 mt-1 line-clamp-1">${mem.caption}</p>
+          <span class="text-[8px] font-mono text-gray-400">${mem.tag}</span>
+        `;
+        grid.appendChild(item);
+      });
+    }
+
+    function switchGalleryMode(mode) {
+      const cardView = document.getElementById('galleryCardSection');
+      const gridView = document.getElementById('galleryGridSection');
+      const cardBtn = document.getElementById('viewCardBtn');
+      const gridBtn = document.getElementById('viewGridBtn');
+
+      if (mode === 'card') {
+        cardView.classList.remove('hidden');
+        gridView.classList.add('hidden');
+        gridView.classList.remove('grid');
+        cardBtn.className = 'px-2.5 py-1 rounded-lg bg-rose-500 text-white font-medium';
+        gridBtn.className = 'px-2.5 py-1 rounded-lg text-pink-200/70 hover:text-white';
+      } else {
+        cardView.classList.add('hidden');
+        gridView.classList.remove('hidden');
+        gridView.classList.add('grid');
+        gridBtn.className = 'px-2.5 py-1 rounded-lg bg-rose-500 text-white font-medium';
+        cardBtn.className = 'px-2.5 py-1 rounded-lg text-pink-200/70 hover:text-white';
+      }
+    }
+
+    function triggerGrandFinale() {
+      initAudioContext();
+      playTone(587.33, 1.2, 'triangle', 0.25);
+      
+      const actionWrapper = document.getElementById('finalActionWrapper');
+      const revealBox = document.getElementById('grandRevealBox');
+      
+      actionWrapper.classList.add('hidden');
+      revealBox.classList.remove('hidden');
+
+      const fireworksDuration = 5500;
+      const endTimestamp = Date.now() + fireworksDuration;
+
+      const fireworksInterval = setInterval(() => {
+        const remaining = endTimestamp - Date.now();
+        if (remaining <= 0) {
+          return clearInterval(fireworksInterval);
+        }
+
+        confetti({
+          particleCount: 28,
+          angle: 60,
+          spread: 60,
+          origin: { x: 0 },
+          colors: ['#ff4d6d', '#ff758f', '#ffb3c1', '#ffd166', '#ffffff']
+        });
+        confetti({
+          particleCount: 28,
+          angle: 120,
+          spread: 60,
+          origin: { x: 1 },
+          colors: ['#ff4d6d', '#ff758f', '#ffb3c1', '#ffd166', '#ffffff']
+        });
+      }, 300);
+    }
+
+    /* Floating Hearts Ambient Generator */
+    function initFloatingHearts() {
+      const container = document.getElementById('floatingHeartsContainer');
+      const symbols = ['❤️', '💖', '✨', '💕', '🌸', '💫'];
+      
+      setInterval(() => {
+        if (document.hidden) return;
+        const el = document.createElement('div');
+        el.className = 'floating-heart-particle';
+        el.innerText = symbols[Math.floor(Math.random() * symbols.length)];
+        el.style.left = `${Math.random() * 92}vw`;
+        el.style.fontSize = `${14 + Math.random() * 18}px`;
+        el.style.animationDuration = `${6 + Math.random() * 5}s`;
+        
+        container.appendChild(el);
+
+        setTimeout(() => {
+          el.remove();
+        }, 11000);
+      }, 800);
+    }
+
+    /* Personalization Modal Logic */
+    function openPersonalizeModal() {
+      document.getElementById('cfgGfName').value = CONFIG.girlfriendName;
+      document.getElementById('cfgYourName').value = CONFIG.yourName;
+      document.getElementById('cfgPassword').value = CONFIG.password;
+      document.getElementById('cfgBgUrl').value = CONFIG.coupleBgImage;
+      
+      const modal = document.getElementById('personalizeModal');
+      modal.classList.remove('hidden');
+      modal.classList.add('flex');
+    }
+
+    function closePersonalizeModal() {
+      const modal = document.getElementById('personalizeModal');
+      modal.classList.add('hidden');
+      modal.classList.remove('flex');
+    }
+
+    function savePersonalization() {
+      const gName = document.getElementById('cfgGfName').value.trim();
+      const yName = document.getElementById('cfgYourName').value.trim();
+      const pwd = document.getElementById('cfgPassword').value.trim();
+      const bgUrl = document.getElementById('cfgBgUrl').value.trim();
+
+      if (gName) CONFIG.girlfriendName = gName;
+      if (yName) CONFIG.yourName = yName;
+      if (pwd) CONFIG.password = pwd;
+      if (bgUrl) CONFIG.coupleBgImage = bgUrl;
+
+      applyConfigToDOM();
+      closePersonalizeModal();
+      playTone(650, 0.4);
+    }
+
+    function applyConfigToDOM() {
+      const bg = document.getElementById('coupleBgPhoto');
+      if (bg && CONFIG.coupleBgImage) {
+        bg.style.backgroundImage = `url('${CONFIG.coupleBgImage}')`;
+      }
+
+      const letterSig = document.getElementById('letterAuthorSignature');
+      if (letterSig) letterSig.innerText = `${CONFIG.yourName} ❤️`;
+
+      const finalGf = document.getElementById('finalGfName');
+      if (finalGf) finalGf.innerText = CONFIG.girlfriendName;
+
+      const finalYr = document.getElementById('finalYourName');
+      if (finalYr) finalYr.innerText = CONFIG.yourName;
+    }
+
+    document.addEventListener('DOMContentLoaded', () => {
+      const passInput = document.getElementById('passwordInput');
+      if (passInput) {
+        passInput.addEventListener('keyup', (e) => {
+          if (e.key === 'Enter') validatePassword();
+        });
+      }
+      applyConfigToDOM();
+      initFloatingHearts();
+      displayActiveMemory();
+      renderMemoryGridItems();
+      lucide.createIcons();
+    });
+  </script>
+</body>
+</html>
